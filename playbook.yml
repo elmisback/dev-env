@@ -1,0 +1,43 @@
+---
+- hosts: all
+  remote_user: vagrant
+  vars: 
+    system_packages:
+      - git
+      - zsh
+      - tmux
+      - stow
+      - python
+      - python-pip
+      - neovim
+  tasks: 
+
+    - name: add neovim ppa
+      sudo: yes
+      apt_repository: repo='ppa:neovim-ppa/unstable' state=present
+
+    - name: install system packages  
+      sudo: yes    
+      apt: name={{ item }} state=present update_cache=yes
+      with_items: system_packages
+
+    - name: clone fasd
+      git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/fasd
+      when: fasd is undefined
+        
+    - name: build fasd
+      sudo: yes
+      command: make install chdir=/home/vagrant/fasd
+      when: fasd is undefined
+
+    - name: make zsh the default shell
+      sudo: yes    
+      user: name=vagrant state=present shell=/usr/bin/zsh
+
+    - name: clean up ~
+      file: path={{ item }} state=absent
+      with_items:
+        - ~/fasd
+        - ~/.bash_profile
+        - ~/.bash_logout
+        - ~/.profile
