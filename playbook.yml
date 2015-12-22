@@ -16,7 +16,7 @@
       sudo: yes
       apt_repository: repo='ppa:neovim-ppa/unstable' state=present
 
-    - name: install system packages  
+    - name: install system packages
       sudo: yes    
       apt: name={{ item }} state=present update_cache=yes
       with_items: system_packages
@@ -40,4 +40,11 @@
         - ~/fasd
         - ~/.bash_profile
         - ~/.bash_logout
+        - ~/.bashrc
         - ~/.profile
+
+    - name: pull repo elmisback/dotfiles
+      git: repo=git@github.com:elmisback/dotfiles dest=/home/vagrant/dotfiles accept_hostkey=yes
+
+    - name: install configuration
+      command: /usr/bin/zsh install.zsh chdir=/home/vagrant/dotfiles creates=/home/vagrant/.zshenv
