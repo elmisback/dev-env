@@ -62,20 +62,13 @@ Vagrant.configure($VAGRANT_CONFIG_VERSION) do |config|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
 
+  # Allow VM to use host machine's credentials (requires setup in ~/.ssh/config)
+  config.ssh.forward_agent = true
+
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
   end
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo apt-get update
-  #   sudo apt-get install -y git zsh stow python python-pip 
-  # 
-  #   # TODO compile fasd from source 
-  #   git clone https://github.com/clvv/fasd && 
-  #   cd fasd && 
-  #   make install && 
-  #   cd .. && rm -rf fasd
-  # SHELL
 end
