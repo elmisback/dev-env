@@ -3,18 +3,23 @@
   remote_user: vagrant
   vars: 
     system_packages:
+      - virtualbox-guest-additions-iso
       - git
       - zsh
       - tmux
       - stow
       - python
       - python-pip
+      - xsel  # clipboard support
       - neovim
+    ppas:
+      - neovim-ppa/unstable
   tasks: 
 
-    - name: add neovim ppa
+    - name: add ppas
       sudo: yes
-      apt_repository: repo='ppa:neovim-ppa/unstable' state=present
+      apt_repository: repo=ppa:{{ item }} state=present
+      with_items: ppas
 
     - name: install system packages
       sudo: yes    
@@ -48,3 +53,9 @@
 
     - name: install configuration
       command: /usr/bin/zsh install.zsh chdir=/home/vagrant/dotfiles creates=/home/vagrant/.zshenv
+
+    - name: (HACK) clipboard support (setup)
+      lineinfile: dest=/home/vagrant/.config/zsh/.zlogin line="VBoxClient --clipboard" create=yes
+
+    - name: (HACK) clipboard support (destroy)
+      lineinfile: dest=/home/vagrant/.config/zsh/.zlogout line="pkill VBoxClient" create=yes

@@ -40,18 +40,11 @@ Vagrant.configure($VAGRANT_CONFIG_VERSION) do |config|
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "dev-vm"
+    # Add bidirectional clipboard support.
+    vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+  end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
@@ -63,9 +56,11 @@ Vagrant.configure($VAGRANT_CONFIG_VERSION) do |config|
   # Allow VM to use host machine's credentials (requires setup in ~/.ssh/config)
   config.ssh.forward_agent = true
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
+  # Enable X11 forwarding from VM
+  # TODO test whether this is necessary.
+  config.ssh.forward_x11 = true
+
+  # Enable provisioning with Ansible.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
   end
