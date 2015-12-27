@@ -27,13 +27,11 @@
       with_items: system_packages
 
     - name: clone fasd
-      git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/fasd
-      when: fasd is undefined
+      git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
         
     - name: build fasd
       sudo: yes
-      command: make install chdir=/home/vagrant/fasd
-      when: fasd is undefined
+      command: make install chdir=/home/vagrant/lib/fasd creates=/usr/local/bin/fasd
 
     - name: make zsh the default shell
       sudo: yes    
@@ -42,7 +40,6 @@
     - name: clean up ~
       file: path={{ item }} state=absent
       with_items:
-        - ~/fasd
         - ~/.bash_profile
         - ~/.bash_logout
         - ~/.bashrc
