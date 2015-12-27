@@ -6,14 +6,6 @@ on the host.
 Vagrant syncs `../dev` to `/home/vagrant/dev` in the VM, so `../dev` needs to
 exist.
 
-For dotfiles installation, ssh agent forwarding needs to be enabled on
-localhost. So `~/.ssh/config` on the host machine should include
-```
-host localhost
-  ForwardAgent yes
-```
-
-### Guest additions version complaint
-```
-$ vagrant plugin install vagrant-vbguest
-```
+Follow the instructions
+[here](https://gist.github.com/brbsix/b70413dec907906ef659) to resolve the Ubuntu
+Wily box's network setup issues. Restart the system afterward.
