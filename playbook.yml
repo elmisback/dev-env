@@ -4,6 +4,7 @@
   vars: 
     ppas:
       - neovim-ppa/unstable
+
     system_packages:
       # basic
       - virtualbox-guest-additions-iso  # clipboard support
@@ -18,6 +19,10 @@
       - python
       - python-pip
       - pylint
+      - virtualenv
+
+    python_packages:
+      - virtualenvwrapper
   tasks: 
 
     - name: add ppas
@@ -29,6 +34,10 @@
       sudo: yes    
       apt: name={{ item }} state=present update_cache=yes
       with_items: system_packages
+
+    - name: install python packages
+      pip: name={{ item }}
+      with_items: python_packages
 
     - name: clone fasd
       git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
