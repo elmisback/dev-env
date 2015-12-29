@@ -2,19 +2,22 @@
 - hosts: all
   remote_user: vagrant
   vars: 
+    ppas:
+      - neovim-ppa/unstable
     system_packages:
-      - virtualbox-guest-additions-iso
+      # basic
+      - virtualbox-guest-additions-iso  # clipboard support
+      - xsel  # clipboard support
       - git
       - zsh
       - tmux
       - stow
+      - neovim
+
+      # python env
       - python
       - python-pip
       - pylint
-      - xsel  # clipboard support
-      - neovim
-    ppas:
-      - neovim-ppa/unstable
   tasks: 
 
     - name: add ppas
