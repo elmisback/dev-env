@@ -63,9 +63,3 @@
 
     - name: install configuration
       command: /usr/bin/zsh install.zsh chdir=/home/vagrant/dotfiles creates=/home/vagrant/.zshenv
-
-    - name: (HACK) clipboard support (setup)
-      lineinfile: dest=/home/vagrant/.config/zsh/.zlogin line="VBoxClient --clipboard" create=yes
-
-    - name: (HACK) clipboard support (destroy)
-      lineinfile: dest=/home/vagrant/.config/zsh/.zlogout line="pkill VBoxClient" create=yes
