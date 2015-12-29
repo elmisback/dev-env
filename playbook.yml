@@ -10,6 +10,7 @@
       - stow
       - python
       - python-pip
+      - pylint
       - xsel  # clipboard support
       - neovim
     ppas:
