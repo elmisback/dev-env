@@ -23,6 +23,7 @@
 
     python_packages:
       - virtualenvwrapper
+      - autoenv
   tasks: 
 
     - name: add ppas
