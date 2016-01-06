@@ -14,7 +14,7 @@
       - tmux
       - stow
       - neovim
-      - npm
+      - nodejs
 
       # python env
       - python
