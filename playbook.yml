@@ -1,7 +1,7 @@
 ---
 - hosts: all
   remote_user: vagrant
-  vars: 
+  vars:
     ppas:
       - neovim-ppa/unstable
 
@@ -14,6 +14,7 @@
       - tmux
       - stow
       - neovim
+      - npm
 
       # python env
       - python
@@ -24,7 +25,8 @@
     python_packages:
       - virtualenvwrapper
       - autoenv
-  tasks: 
+      - ipython
+  tasks:
 
     - name: add ppas
       sudo: yes
@@ -32,7 +34,7 @@
       with_items: ppas
 
     - name: install system packages
-      sudo: yes    
+      sudo: yes
       apt: name={{ item }} state=present update_cache=yes
       with_items: system_packages
 
@@ -42,13 +44,13 @@
 
     - name: clone fasd
       git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
-        
+
     - name: build fasd
       sudo: yes
       command: make install chdir=/home/vagrant/lib/fasd creates=/usr/local/bin/fasd
 
     - name: make zsh the default shell
-      sudo: yes    
+      sudo: yes
       user: name=vagrant state=present shell=/usr/bin/zsh
 
     - name: clean up ~
