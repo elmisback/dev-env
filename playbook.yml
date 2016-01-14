@@ -18,6 +18,7 @@
 
       # python env
       - python
+      - python-dev
       - python-pip
       - pylint
       - virtualenv
