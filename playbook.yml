@@ -15,6 +15,7 @@
       - stow
       - neovim
       - nodejs
+      - npm
 
       # python env
       - python
@@ -26,6 +27,7 @@
       - virtualenvwrapper
       - autoenv
       - ipython
+      - pytest
   tasks:
 
     - name: add ppas
