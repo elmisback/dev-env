@@ -1,69 +1,55 @@
 ---
+# TODO uncomment most of these for a full installation
 - hosts: all
-  remote_user: vagrant
   vars:
-    ppas:
-      - neovim-ppa/unstable
-
-    system_packages:
-      # basic
-      - virtualbox-guest-additions-iso  # clipboard support
-      - xsel  # clipboard support
+    packages:
+      #- xsel  # clipboard support
       - git
-      - zsh
-      - tmux
-      - stow
-      - neovim
-      - nodejs
-
-      # python env
-      - python
-      - python-dev
-      - python-pip
-      - pylint
-      - virtualenv
+      #- zsh
+      #- stow
+      #- neovim
+      #- python
 
     python_packages:
-      - virtualenvwrapper
-      - autoenv
       - ipython
-  tasks:
+      - tldr.py  # tldr client
 
-    - name: add ppas
-      sudo: yes
-      apt_repository: repo=ppa:{{ item }} state=present
-      with_items: ppas
+  tasks:
+    #- name: add Debian experimental to /etc/atp/sources.list (neovim)
+    #  sudo: yes
+    #  apt_repository: repo='deb http://ftp.debian.org/debian experimental main'
 
     - name: install system packages
       sudo: yes
-      apt: name={{ item }} state=present update_cache=yes
-      with_items: system_packages
+      apt: name={{ item }} update_cache=yes
+      with_items: packages
 
-    - name: install python packages
-      pip: name={{ item }}
-      with_items: python_packages
+    #- name: install python packages
+    #  pip: name={{ item }}
+    #  with_items: python_packages
 
-    - name: clone fasd
-      git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
+    #- name: make zsh the default shell
+    #  sudo: yes
+    #  user: name=vagrant state=present shell=/usr/bin/zsh
 
-    - name: build fasd
-      sudo: yes
-      command: make install chdir=/home/vagrant/lib/fasd creates=/usr/local/bin/fasd
+    #- name: clean up ~
+    #  file: path={{ item }} state=absent
+    #  with_items:
+    #    - ~/.bash_profile
+    #    - ~/.bash_logout
+    #    - ~/.bashrc
+    #    - ~/.profile
 
-    - name: make zsh the default shell
-      sudo: yes
-      user: name=vagrant state=present shell=/usr/bin/zsh
+    ## TODO modify dest
+    #- name: pull repo elmisback/dotfiles
+    #  git: repo=git@github.com:elmisback/dotfiles dest=~/dotfiles accept_hostkey=yes
 
-    - name: clean up ~
-      file: path={{ item }} state=absent
-      with_items:
-        - ~/.bash_profile
-        - ~/.bash_logout
-        - ~/.bashrc
-        - ~/.profile
+    #- name: install configuration
+    #  command: /usr/bin/zsh install.zsh chdir=~/dotfiles creates=~/.zshenv
 
-    - name: pull repo elmisback/dotfiles
-      git: repo=git@github.com:elmisback/dotfiles dest=/home/vagrant/dotfiles accept_hostkey=yes
+    #- name: clone fasd
+    #  git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
 
-    - name: install configuration
-      command: /usr/bin/zsh install.zsh chdir=/home/vagrant/dotfiles creates=/home/vagrant/.zshenv
+    #- name: build fasd
+    #  sudo: yes
+    #  command: make install chdir=/home/vagrant/lib/fasd creates=/usr/local/bin/fasd

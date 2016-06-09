@@ -1,21 +1,21 @@
-### Idea
-Develop on a VM that syncs/mounts some part of the host filesystem. Run tests
-on the host.
+# Setup
+## Vagrant VM
+Make sure you like the synced folders in the `Vagrantfile`.
 
-### Setup
-Vagrant syncs `../dev` to `/home/vagrant/dev` in the VM, so `../dev` needs to
-exist.
+Start and provision the VM with `vagrant up`.
 
-Follow the instructions
-[here](https://gist.github.com/brbsix/b70413dec907906ef659) to resolve the Ubuntu
-Wily box's network setup issues. Restart the system afterward.
+You can re-provision with `vagrant provision` outside the VM or `make vagrant base`
+in this directory inside the VM.
 
-### Windows
-Vagrant will fail when it attempts to use Ansible as a provisioner because Windows
-is the worst. Solution: install Ansible on the guest, clone this repo on the guest, 
-and run
+## Native
+Depends on ansible, so install that first:
+```bash
+$ sudo apt-get install -y ansible
 ```
-ansible-playbook -i "localhost," -c local playbook.yml
+
+Then
+```bash
+$ git clone git@github.com:elmisback/dev-env
+$ cd dev-env
+$ make  # Provision
 ```
-to provision the guest from the guest. It might be wise to make this the default 
-provisioning method via a shell script.

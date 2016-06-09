@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: install virtualbox guest additions
+      sudo: yes
+      apt: name=virtualbox-guest-additions-iso state=present update_cache=yes
