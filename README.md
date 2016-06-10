@@ -8,9 +8,24 @@ You can re-provision with `vagrant provision` outside the VM or `make vagrant ba
 in this directory inside the VM.
 
 ## Native
-Depends on ansible, so install that first:
+Install dependencies first:
 ```bash
-$ sudo apt-get install -y ansible
+$ sudo apt-get install -y git ansible 
+```
+
+```bash
+$ sudo apt-get install -y openssh-server
+# Secure and restart the ssh server.
+$ sudo vi /etc/ssh/sshd_config
+# PasswordAuthentication no
+# PermitRootLogin no
+
+$ sudo service ssh restart
+
+# Test: allow ssh to localhost.
+$ ~/.ssh/authorized_keys << ~/.ssh/id_rsa.pub
+$ ssh localhost
+# ...
 ```
 
 Then

@@ -3,8 +3,12 @@ all: base
 
 .PHONY: base
 base:
-	ansible-playbook -i "localhost," -c local playbook.yml
+	ansible-playbook -i "localhost," -c local --ask-sudo-pass playbook.yml
 
 .PHONY: vagrant
 vagrant:
-	ansible-playbook -i "localhost," -c local playbook-vagrant.yml
+	ansible-playbook -i "localhost," -c local --ask-sudo-pass playbook-vagrant.yml
+
+.PHONY: debug
+debug:
+	ansible-playbook -i "localhost," -c local -vvv --ask-sudo-pass playbook.yml

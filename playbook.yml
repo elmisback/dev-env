@@ -1,36 +1,32 @@
 ---
 # TODO uncomment most of these for a full installation
 - hosts: all
-  vars:
-    packages:
-      #- xsel  # clipboard support
-      - git
-      #- zsh
-      #- stow
-      #- neovim
-      #- python
-
-    python_packages:
-      - ipython
-      - tldr.py  # tldr client
-
   tasks:
     #- name: add Debian experimental to /etc/atp/sources.list (neovim)
     #  sudo: yes
-    #  apt_repository: repo='deb http://ftp.debian.org/debian experimental main'
+    #  apt_repository: repo='deb http://ftp.debian.org/debian experimental main' update_cache=yes
 
     - name: install system packages
       sudo: yes
-      apt: name={{ item }} update_cache=yes
-      with_items: packages
+      apt: name={{ item }}
+      with_items:
+        - git
+        - zsh
+        - tree
+        #- xsel  # clipboard support
+        #- stow
+        #- neovim
+        #- python
 
     #- name: install python packages
     #  pip: name={{ item }}
     #  with_items: python_packages
+        #- ipython
+        #- tldr.py  # tldr client
 
-    #- name: make zsh the default shell
-    #  sudo: yes
-    #  user: name=vagrant state=present shell=/usr/bin/zsh
+    - name: make zsh the default shell
+      sudo: yes
+      user: name="{{ ansible_user_id }}" shell=/usr/bin/zsh
 
     #- name: clean up ~
     #  file: path={{ item }} state=absent

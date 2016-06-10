@@ -7,7 +7,7 @@ $guestdir_sync = "/home/vagrant/dev"
 $VAGRANT_CONFIG_VERSION = 2  # Don't change.
 Vagrant.configure($VAGRANT_CONFIG_VERSION) do |config|
 
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/stretch64"
   config.vm.synced_folder ".", "/home/vagrant/dev-env"
   config.vm.synced_folder $hostdir_sync, $guestdir_sync
 
