@@ -13,7 +13,8 @@
         - git
         - zsh
         - tree
-        #- xsel  # clipboard support
+        - xsel  # clipboard support
+	- vim
         #- stow
         #- neovim
         #- python
@@ -28,13 +29,13 @@
       sudo: yes
       user: name="{{ ansible_user_id }}" shell=/usr/bin/zsh
 
-    #- name: clean up ~
-    #  file: path={{ item }} state=absent
-    #  with_items:
-    #    - ~/.bash_profile
-    #    - ~/.bash_logout
-    #    - ~/.bashrc
-    #    - ~/.profile
+    - name: clean up ~
+      file: path={{ item }} state=absent
+      with_items:
+        - ~/.bash_profile
+        - ~/.bash_logout
+        - ~/.bashrc
+        - ~/.profile
 
     ## TODO modify dest
     #- name: pull repo elmisback/dotfiles
