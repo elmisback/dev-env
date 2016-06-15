@@ -2,31 +2,38 @@
 # TODO uncomment most of these for a full installation
 - hosts: all
   tasks:
-    #- name: add Debian experimental to /etc/atp/sources.list (neovim)
-    #  sudo: yes
-    #  apt_repository: repo='deb http://ftp.debian.org/debian experimental main' update_cache=yes
-
     - name: install system packages
-      sudo: yes
+      become: yes
       apt: name={{ item }}
       with_items:
+        # (dependencies)
+        - ansible
         - git
-        - zsh
-        - tree
-        - xsel  # clipboard support
-	- vim
-        #- stow
-        #- neovim
-        #- python
+        - make
 
-    #- name: install python packages
-    #  pip: name={{ item }}
-    #  with_items: python_packages
-        #- ipython
-        #- tldr.py  # tldr client
+        # Basic env
+        - rxvt-unicode
+        - tmux
+        - zsh
+        - vim-gtk
+        - python
+        - python-pip
+
+        # Dotfiles dependency
+        - stow
+
+        # Tools
+        - curl
+        - tree
+        - xsel
+
+    - name: install python packages
+      pip: name={{ item }}
+      with_items:
+        - ipython
 
     - name: make zsh the default shell
-      sudo: yes
+      become: yes
       user: name="{{ ansible_user_id }}" shell=/usr/bin/zsh
 
     - name: clean up ~
@@ -37,16 +44,16 @@
         - ~/.bashrc
         - ~/.profile
 
-    ## TODO modify dest
-    #- name: pull repo elmisback/dotfiles
-    #  git: repo=git@github.com:elmisback/dotfiles dest=~/dotfiles accept_hostkey=yes
+    # TODO modify dest
+    - name: pull repo elmisback/dotfiles
+      git: repo=git@github.com:elmisback/dotfiles dest=~/dotfiles accept_hostkey=yes update=no
 
-    #- name: install configuration
-    #  command: /usr/bin/zsh install.zsh chdir=~/dotfiles creates=~/.zshenv
+    - name: install configuration
+      command: /usr/bin/zsh install.zsh chdir=~/dotfiles creates=~/.zshenv
 
     #- name: clone fasd
     #  git: repo=https://github.com/clvv/fasd.git dest=/home/vagrant/lib/fasd
 
     #- name: build fasd
-    #  sudo: yes
+    #  become: yes
     #  command: make install chdir=/home/vagrant/lib/fasd creates=/usr/local/bin/fasd
