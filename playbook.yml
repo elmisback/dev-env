@@ -30,7 +30,7 @@
         - xsel
 
     - name: install python packages
-      pip: name={{ item }}
+      pip: name={{ item }} state=present
       with_items:
         - ipython
 
