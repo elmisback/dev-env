@@ -15,7 +15,6 @@
         - make
 
         # Basic env
-        - rxvt-unicode
         - tmux
         - zsh
         - vim-gtk
