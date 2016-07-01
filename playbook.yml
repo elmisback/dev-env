@@ -61,3 +61,6 @@
 
     - name: install configuration
       command: make install chdir=~/dotfiles creates=~/.zshenv
+
+    - name: install Google drive tool (drive)
+      command: go get -u github.com/odeke-em/drive/cmd/drive
