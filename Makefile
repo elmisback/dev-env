@@ -7,7 +7,7 @@ base:
 
 .PHONY: vagrant
 vagrant:
-	ansible-playbook -i "localhost," -c local --ask-sudo-pass playbook-vagrant.yml
+	ansible-playbook -i "localhost," -c local --ask-sudo-pass setup-vagrant.yml
 
 .PHONY: debug
 debug:

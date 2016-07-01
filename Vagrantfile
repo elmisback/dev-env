@@ -24,7 +24,7 @@ Vagrant.configure($VAGRANT_CONFIG_VERSION) do |config|
   # First add Vagrant-specific provisions.
   config.vm.provision "ansible_local" do |ansible|
     ansible.provisioning_path = "/home/vagrant/dev-env"
-    ansible.playbook = "playbook-vagrant.yml"
+    ansible.playbook = "setup-vagrant.yml"
   end
 
   # Next, provision as ususal.
