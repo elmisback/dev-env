@@ -21,4 +21,9 @@ $ cd dev-env
 $ make  # Provision
 ```
 
+# Post-setup
 
+Make sure you're in a terminal that can copy text to the clipboard. Initialize drive:
+```
+init ~/gdrive
+```

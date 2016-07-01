@@ -57,7 +57,7 @@
       get_url: url=https://raw.githubusercontent.com/clvv/fasd/master/fasd dest=~/.local/bin/fasd
 
     - name: tmux plugins (tmux-plugins/tpm)
-      git: repo=git@github.com:tmux-plugins/tpm dest=~/.cache/tmux/plugins/tpm accept_hostkey=yes update=no
+      git: repo=git@github.com:tmux-plugins/tpm dest=~/.local/share/tmux/plugins/tpm accept_hostkey=yes update=no
 
     - name: install configuration
       command: make install chdir=~/dotfiles creates=~/.zshenv
