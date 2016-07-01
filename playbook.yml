@@ -3,7 +3,7 @@
 - hosts: all
   tasks:
     - name: ensure my locale is present
-    - locale_gen: name=en_US.UTF-8 state=present
+      locale_gen: name=en_US.UTF-8 state=present
 
     - name: install system packages
       become: yes
