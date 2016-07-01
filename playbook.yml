@@ -1,5 +1,4 @@
 ---
-# TODO uncomment most of these for a full installation
 - hosts: all
   tasks:
     - name: ensure my locale is present
@@ -7,9 +6,10 @@
 
     - name: install system packages
       become: yes
-      apt: name={{ item }}
+      # Updates cache if last update was more than 3 minutes prior (once per run or so)
+      apt: name={{ item }} cache_valid_time=180 update_cache=yes
       with_items:
-        # (dependencies)
+        # (dependencies, should already be installed)
         - ansible
         - git
         - make
@@ -20,6 +20,7 @@
         - vim-gtk
         - python
         - python-pip
+        - golang
 
         # Dotfiles dependency
         - stow
