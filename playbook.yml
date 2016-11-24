@@ -21,6 +21,8 @@
         - python
         - python-pip
         - golang
+        - ruby-dev
+        - nodejs-legacy
 
         # Dotfiles dependency
         - stow
