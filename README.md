@@ -14,7 +14,7 @@ Install dependencies first:
 $ sudo apt-get install -y git ansible make
 ```
 
-Then
+Then add the machine's ssh key to github and
 ```bash
 $ git clone git@github.com:elmisback/dev-env
 $ cd dev-env
