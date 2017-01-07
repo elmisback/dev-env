@@ -2,6 +2,7 @@
 - hosts: all
   tasks:
     - name: ensure my locale is present
+      become: yes
       locale_gen: name=en_US.UTF-8 state=present
 
     - name: install system packages
