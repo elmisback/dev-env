@@ -62,9 +62,24 @@
       #- command: make install chdir=~/dotfiles creates=~/.zshenv
 
     - name: install Google drive tool (drive)
-      command: go get -u github.com/odeke-em/drive/cmd/drive
+      command: go get -u github.com/odeke-em/drive/cmd/drive creates=~/.local/share/go/bin/drive
 
-    - name: Creates directory
+    - name: Creates directories
       file: path={{ item }} state=directory
       with_items:
         - ~/.config/octave
+        - ~/.local/bin
+        - ~/.ssh
+        - ~/.local/
+
+    - name: ssh-ident
+      get_url:
+        url: https://raw.githubusercontent.com/ccontavalli/ssh-ident/master/ssh-ident
+        dest: ~/.local/bin/ssh
+        mode: 0755
+
+    - name: scp and sftp via ssh-ident
+      file: path={{ item }} state=link src=~/.local/bin/ssh
+      with_items:
+        - ~/.local/bin/scp
+        - ~/.local/bin/sftp
