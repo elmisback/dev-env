@@ -59,8 +59,9 @@
     - name: Creates directories
       file: path={{ item }} state=directory
       with_items:
-        - "{{ansible_env.XDG_CONFIG_HOME}}/octave"
         - "{{ansible_env.PREFIX}}/bin"
+        - "{{ansible_env.XDG_RUNTIME_DIR}}"
+        - "{{ansible_env.XDG_DATA_HOME}}/octave"
         - ~/.ssh
 
     - name: pull repo elmisback/dotfiles (dotfiles)
