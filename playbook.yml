@@ -21,7 +21,7 @@
 
         # Basic env
         - tmux
-        - zsh
+        - fish
         - vim-gtk
         - python3
         - golang
