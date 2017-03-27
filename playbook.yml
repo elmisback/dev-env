@@ -1,6 +1,10 @@
 ---
 - hosts: all
   tasks:
+    - name: install locales
+      become: yes
+      apt: name=locales cache_valid_time=180 update_cache=yes
+
     - name: ensure my locale is present
       become: yes
       locale_gen: name=en_US.UTF-8 state=present
@@ -52,38 +56,37 @@
         - ~/.zshrc
         - ~/.profile
 
+    - name: Creates directories
+      file: path={{ item }} state=directory
+      with_items:
+        - "{{ansible_env.XDG_CONFIG_HOME}}/octave"
+        - "{{ansible_env.PREFIX}}/bin"
+        - ~/.ssh
+
     - name: pull repo elmisback/dotfiles (dotfiles)
       git: repo=git@github.com:elmisback/dotfiles dest=~/dotfiles accept_hostkey=yes update=no
 
     - name: get fasd
-      get_url: url=https://raw.githubusercontent.com/clvv/fasd/master/fasd dest=~/.local/bin/fasd
+      get_url: url=https://raw.githubusercontent.com/clvv/fasd/master/fasd dest="{{ansible_env.XDG_CONFIG_HOME}}/bin/fasd"
 
     - name: tmux plugins (tmux-plugins/tpm)
-      git: repo=git@github.com:tmux-plugins/tpm dest=~/.local/share/tmux/plugins/tpm accept_hostkey=yes update=no
+      git: repo=git@github.com:tmux-plugins/tpm dest="{{ansible_env.XDG_DATA_HOME}}/tmux/plugins/tpm" accept_hostkey=yes update=no
 
       # TODO fix these
       #- name: install configuration
-      #- command: make install chdir=~/dotfiles creates=~/.zshenv
+      #- command: make install chdir=~/dotfiles creates=~/.profile
 
     - name: install Google drive tool (drive)
-      command: go get -u github.com/odeke-em/drive/cmd/drive creates=~/.local/share/go/bin/drive
-
-    - name: Creates directories
-      file: path={{ item }} state=directory
-      with_items:
-        - ~/.config/octave
-        - ~/.local/bin
-        - ~/.ssh
-        - ~/.local/
+      command: go get -u github.com/odeke-em/drive/cmd/drive creates="{{ansible_env.GOPATH}}/bin/drive"
 
     - name: ssh-ident
       get_url:
         url: https://raw.githubusercontent.com/ccontavalli/ssh-ident/master/ssh-ident
-        dest: ~/.local/bin/ssh
+        dest: "{{ansible_env.XDG_CONFIG_HOME}}/bin/ssh"
         mode: 0755
 
     - name: scp and sftp via ssh-ident
-      file: path={{ item }} state=link src=~/.local/bin/ssh
+      file: path={{ item }} state=link src="{{ansible_env.XDG_CONFIG_HOME}}/bin/ssh"
       with_items:
         - ~/.local/bin/scp
         - ~/.local/bin/sftp

@@ -1,9 +1,12 @@
 .PHONY: all
-all: base
+all: clean profile base
+
+profile:
+	wget https://raw.githubusercontent.com/elmisback/dotfiles/master/home/profile
 
 .PHONY: base
-base:
-	ansible-playbook -i "localhost," -c local --private-key=~/.config/ssh/id_rsa --ask-sudo-pass playbook.yml
+base: profile
+	. ./profile && env ansible-playbook -i "localhost," -c local --private-key=~/.config/ssh/id_rsa --ask-sudo-pass playbook.yml
 
 .PHONY: vagrant
 vagrant:
@@ -12,3 +15,6 @@ vagrant:
 .PHONY: debug
 debug:
 	ansible-playbook -i "localhost," -c local --private-key=~/.config/ssh/id_rsa -vvv --ask-sudo-pass playbook.yml
+
+clean:
+	rm -f profile
