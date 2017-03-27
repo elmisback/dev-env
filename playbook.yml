@@ -24,6 +24,7 @@
         - fish
         - vim-gtk
         - python3
+        - python3-pip
         - golang
         - ruby-dev
         - nodejs-legacy
@@ -54,28 +55,34 @@
         - ~/.bash_logout
         - ~/.bashrc
         - ~/.zshrc
-        - ~/.profile
 
     - name: Creates directories
       file: path={{ item }} state=directory
       with_items:
+        - "~/code"
         - "{{ansible_env.PREFIX}}/bin"
         - "{{ansible_env.XDG_RUNTIME_DIR}}"
         - "{{ansible_env.XDG_DATA_HOME}}/octave"
+        - "{{ansible_env.XDG_DATA_HOME}}/fasd"
         - ~/.ssh
 
     - name: pull repo elmisback/dotfiles (dotfiles)
       git: repo=git@github.com:elmisback/dotfiles dest=~/dotfiles accept_hostkey=yes update=no
 
+    - name: pull repo elmisback/ansi-scheme
+      git: repo=git@github.com:elmisback/ansi-scheme dest=~/code/ansi-scheme accept_hostkey=yes update=no
+
     - name: get fasd
-      get_url: url=https://raw.githubusercontent.com/clvv/fasd/master/fasd dest="{{ansible_env.PREFIX}}/bin/fasd"
+      get_url: url=https://raw.githubusercontent.com/clvv/fasd/master/fasd dest="{{ansible_env.PREFIX}}/bin/fasd" mode=u+x
 
     - name: tmux plugins (tmux-plugins/tpm)
       git: repo=git@github.com:tmux-plugins/tpm dest="{{ansible_env.XDG_DATA_HOME}}/tmux/plugins/tpm" accept_hostkey=yes update=no
 
-      # TODO fix these
-      #- name: install configuration
-      #- command: make install chdir=~/dotfiles creates=~/.profile
+    - name: install configuration
+      command: make chdir=~/dotfiles creates=~/dotfiles/lockfile
+
+    - name: get fisher
+      get_url: url=https://git.io/fisher dest="{{ansible_env.XDG_CONFIG_HOME}}/fish/functions/fisher.fish"
 
     - name: install Google drive tool (drive)
       command: go get -u github.com/odeke-em/drive/cmd/drive creates="{{ansible_env.GOPATH}}/bin/drive"
