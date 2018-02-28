@@ -11,8 +11,8 @@
 
     - name: install system packages
       become: yes
-      # Updates cache if last update was more than 3 minutes prior (once per run or so)
-      apt: name={{ item }} cache_valid_time=180 update_cache=yes
+      # Updates cache if last update was more than 30 minutes prior
+      apt: name={{ item }} cache_valid_time=1800 update_cache=yes
       with_items:
         # (dependencies, should already be installed)
         - ansible
@@ -22,12 +22,11 @@
         # Basic env
         - tmux
         - fish
-        - vim-gtk
+        - neovim
         - python3
         - python3-pip
         - golang
-        - ruby-dev
-        - nodejs-legacy
+        - nodejs
 
         # Dotfiles dependency
         - stow
@@ -42,6 +41,10 @@
 
         # Apps
         - calibre
+        - anki
+
+    - name: install xonsh
+      pip: executable=pip3 name=xonsh
 
     - name: make bash the default shell
       become: yes
@@ -81,7 +84,7 @@
       command: make chdir=~/dotfiles creates=~/dotfiles/lockfile
 
     - name: get fisher
-    - get_url: url=https://git.io/fisher dest="{{ansible_env.XDG_CONFIG_HOME}}/fish/functions/fisher.fish"
+      get_url: url=https://git.io/fisher dest="{{ansible_env.XDG_CONFIG_HOME}}/fish/functions/fisher.fish"
 
     - name: install Google drive tool (drive)
       command: go get -u github.com/odeke-em/drive/cmd/drive creates="{{ansible_env.GOPATH}}/bin/drive"
