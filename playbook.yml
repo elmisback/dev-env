@@ -42,7 +42,6 @@
 
         # Apps
         - calibre
-        - chromium
 
     - name: make bash the default shell
       become: yes
@@ -82,7 +81,7 @@
       command: make chdir=~/dotfiles creates=~/dotfiles/lockfile
 
     - name: get fisher
-      get_url: url=https://git.io/fisher dest="{{ansible_env.XDG_CONFIG_HOME}}/fish/functions/fisher.fish"
+    - get_url: url=https://git.io/fisher dest="{{ansible_env.XDG_CONFIG_HOME}}/fish/functions/fisher.fish"
 
     - name: install Google drive tool (drive)
       command: go get -u github.com/odeke-em/drive/cmd/drive creates="{{ansible_env.GOPATH}}/bin/drive"
