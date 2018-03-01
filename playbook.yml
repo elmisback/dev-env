@@ -46,9 +46,9 @@
     - name: install xonsh
       pip: executable=pip3 name=xonsh
 
-    - name: make bash the default shell
+    - name: make fish the default shell
       become: yes
-      user: name={{ ansible_user_id }} shell=/bin/bash
+      user: name={{ ansible_user_id }} shell=/usr/bin/fish
 
     - name: clean up ~
       file: path={{ item }} state=absent
